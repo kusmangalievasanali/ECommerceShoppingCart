@@ -1,103 +1,148 @@
-# E-Commerce Shopping Cart — project
+# E-Commerce Shopping Cart
 
-Six patterns: Builder, Factory Method, Decorator, Adapter, Observer, Strategy.
-Currency: KZT. Payments are educational simulations with no network calls.
+A Java 17 console application for configuring products, managing a shopping cart,
+applying discounts and processing simulated payments.
 
-## IntelliJ IDEA: open and run
+The project combines six design patterns in a single shopping workflow.
 
-1. Extract the archive into a new folder. Open `pom.xml` as a Maven project.
-2. Set Project SDK and Maven Runner JRE to JDK 17 or newer.
-3. Reload Maven. Run `src/main/java/Main.java` with the green triangle.
-4. Run Maven Lifecycle → verify to execute all automated tests.
+## Team
 
-To update your existing Git repository, back it up first. Keep its `.git` directory,
-replace the old `src` tree with this archive's `src`, and copy the root files and docs.
-Do not retain the old `src/Main.java` or old pattern folders beside `src/main/java`.
-Do not copy a new `.git` directory over your existing repository.
+| Team member | Responsibility |
+|---|---|
+| Damir | Builder and Factory Method |
+| Nurali | Decorator and Adapter |
+| Asanali | Observer and Strategy |
 
-## Terminal
+## Design patterns
 
-Windows PowerShell:
+| Category | Pattern | Application |
+|---|---|---|
+| Creational | Builder | Step-by-step configuration of custom PCs |
+| Creational | Factory Method | Creation of laptops and headphones |
+| Structural | Decorator | Gift wrapping, extended warranty and express delivery |
+| Structural | Adapter | Common payment interface for Kaspi and Stripe simulations |
+| Behavioral | Observer | Notifications about price and inventory changes |
+| Behavioral | Strategy | Interchangeable discount algorithms |
+
+## Requirements
+
+- JDK 17 or newer
+- Internet connection for the first Maven build
+
+Maven Wrapper is included, so a separate Maven installation is not required.
+
+## Run in IntelliJ IDEA
+
+1. Open the project's `pom.xml` as a Maven project.
+2. Select JDK 17 or newer as the Project SDK.
+3. Reload Maven dependencies.
+4. Run `src/main/java/Main.java`.
+
+`Main` demonstrates product creation, additional services, price and stock
+notifications, discount calculation and checkout through both payment adapters.
+
+## Build and test
+
+### Windows PowerShell
 
 ```powershell
 .\mvnw.cmd clean verify
-java -jar target/ecommerce-shopping-cart-1.0.0.jar
 ```
 
-macOS / Linux:
+### macOS / Linux
 
 ```sh
 chmod +x mvnw
 ./mvnw clean verify
+```
+
+The test suite contains 33 test cases covering the patterns, monetary calculations,
+inventory reservations, payment failures and input validation.
+
+Test reports are saved in:
+
+```text
+target/surefire-reports/
+```
+
+## Run the packaged application
+
+After a successful build:
+
+```sh
 java -jar target/ecommerce-shopping-cart-1.0.0.jar
 ```
 
-JDK 17+ is required. Maven Wrapper downloads Maven on its first use. Maven Central
-access is required to download test dependencies. The built application runs offline.
+The application runs offline. Kaspi and Stripe payments are local simulations.
 
-## Source hierarchy
+## Project structure
 
 ```text
-src/main/java/
-  Main.java
-  builder/{builders,director,product}/
-  factory/{creators,products}/
-  decorator/{base,concrete}/
-  adapter/{adaptees,adapters,target}/
-  observer/{events,observers,subject}/
-  strategy/{context,model,strategies}/
-src/test/java/
-  builder/ factory/ decorator/ adapter/ observer/ strategy/
+src/
+├── main/
+│   └── java/
+│       ├── Main.java
+│       ├── builder/
+│       │   ├── builders/
+│       │   ├── director/
+│       │   └── product/
+│       ├── factory/
+│       │   ├── creators/
+│       │   └── products/
+│       ├── decorator/
+│       │   ├── base/
+│       │   └── concrete/
+│       ├── adapter/
+│       │   ├── adaptees/
+│       │   ├── adapters/
+│       │   └── target/
+│       ├── observer/
+│       │   ├── events/
+│       │   ├── observers/
+│       │   └── subject/
+│       └── strategy/
+│           ├── context/
+│           ├── model/
+│           └── strategies/
+└── test/
+    └── java/
+        ├── builder/
+        ├── factory/
+        ├── decorator/
+        ├── adapter/
+        ├── observer/
+        └── strategy/
 ```
 
-Exactly six top-level packages. Main is the only production class outside them.
+The source code has six top-level pattern packages.
+`Main` is the only production class outside these packages.
 
 ## Business rules
 
-- Every concrete configuration has a SKU, name and immutable base definition.
-  Builder configures CPU, GPU, RAM and SSD. The merchant supplies the final base
-  price for the SKU; component-price calculation is outside this prototype.
-- The catalog wraps configurations with live base prices and integer stock.
-  Only catalog operations mutate prices or stock, keeping Observer events consistent.
-- Cart items use catalog views or decorators over them. A price change immediately
-  affects a cart not yet checked out. Event prices always mean base catalog prices.
-- Gift wrapping 1500.00, warranty 9000.00 and express delivery 3000.00 KZT are
-  charged per unit. All services are included before percentage discounts.
-- BigDecimal and HALF_UP are used. Base amounts are rounded to two decimal places;
-  percentage discount amounts are rounded before subtracting from subtotal.
-- Discount policies: no discount, 0–100 percent, SAVE10 and STUDENT15 promo codes.
-- A zero-total order consumes stock and clears the cart without calling a bank.
-- Repeated SKUs across decorated and undecorated lines share inventory quantities.
-- All requested quantities are checked before reserving any stock. Payment failure
-  or invalid confirmation rolls back the reservation and preserves the cart.
-- Committed stock changes notify observers. Failed reservations do not publish
-  completed-sale events. One failing observer does not block other subscribers.
-- The catalog permits one active reservation. Other catalog mutations are blocked
-  until it commits or closes, preventing overlapping rollback corruption.
-- Receipts preserve immutable price/description snapshots; future price changes
-  do not alter completed receipts.
+- All prices are expressed in KZT.
+- Monetary calculations use `BigDecimal` with two decimal places and
+  `HALF_UP` rounding.
+- Custom PCs have configurable CPU, GPU, RAM and storage.
+  The base price is supplied for each configuration.
+- Gift wrapping costs 1500.00 KZT, extended warranty costs 9000.00 KZT,
+  and express delivery costs 3000.00 KZT per unit.
+- Discounts apply to the subtotal, including additional services.
+- Available discount policies include no discount, percentage discounts,
+  and the `SAVE10` and `STUDENT15` promo codes.
+- Catalog events report base prices. Decorated prices include service fees.
+- Price increases, price decreases and stock changes notify subscribed observers.
+- Quantities of the same SKU are combined before inventory reservation.
+- Failed payments restore reserved stock and preserve the cart.
+- Successful checkout commits stock changes and clears the cart.
+- Orders with a zero total are completed without calling a payment provider.
+- Completed receipts preserve their original prices and descriptions.
 
-This is a single-threaded, in-memory teaching model. There is no real payment,
-database, email, persistence, production transaction manager or GUI. Product and
-discount implementations are trusted application components. Concurrent checkout,
-provider idempotency and distributed payment recovery require further development.
+The application stores data in memory and processes operations sequentially.
 
-## Documentation and final submission
+## Documentation
 
-- `docs/REPORT.pdf`: Introduction, Body, Conclusion, Further Work, screenshots,
-  UML and complete production Java source appendix.
-- `docs/uml/`: editable PlantUML and rendered PNG diagrams.
-- `docs/screenshots/`: screenshots of actual captured console and test output.
-- `docs/DEFENSE_RU.md`: theory and demonstration guide.
-- `docs/TEAM_WORKFLOW_RU.md`: genuine contribution workflow.
-- `docs/REQUIREMENTS_CHECKLIST.md`: completed technical criteria and external actions.
-- `docs/CHANGES_RU.md`: changes from the uploaded archive.
+The `docs/` directory contains the project report and supporting materials:
 
-Each student must personally implement/understand at least two patterns and have
-genuine commits. A prepared archive does not prove contribution. Add your real
-Git repository link and submit PDF + source ZIP individually to Moodle before the
-actual deadline, then defend the project. No deadline date was provided in the PDF.
-
-Report metadata can be filled in `docs/report_metadata.json`. To rebuild the PDF:
-create a Python virtual environment, install `docs/requirements.txt`, then run
-`python docs/build_report.py`. Python is optional and not needed to run Java.
+- PDF project report
+- `uml/` — PlantUML source files and rendered diagrams
+- `screenshots/` — application output and test results
