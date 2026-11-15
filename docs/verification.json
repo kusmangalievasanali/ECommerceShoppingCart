@@ -1,0 +1,41 @@
+{
+  "project": "Corrected uploaded ECommerceShoppingCart_Java17.zip",
+  "patterns": [
+    "Builder",
+    "Factory Method",
+    "Decorator",
+    "Adapter",
+    "Observer",
+    "Strategy"
+  ],
+  "target_java": 17,
+  "production_java_files": 40,
+  "top_level_packages": [
+    "builder",
+    "factory",
+    "decorator",
+    "adapter",
+    "observer",
+    "strategy"
+  ],
+  "only_external_class": "Main",
+  "maven_verify": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "strict_javac": "--release 17 -Xlint:all -Werror: PASS",
+  "main_run": "PASS",
+  "report_pages": 30,
+  "report_embedded_images": 12,
+  "uml_diagrams": 8,
+  "actual_output_screenshots": 4,
+  "pending_external_requirements": [
+    "Actual Git link and publication by user",
+    "Genuine contributions and commits from all three students",
+    "Team metadata on report cover",
+    "Individual Moodle submissions before deadline",
+    "Live OOP and design-pattern defense"
+  ]
+}

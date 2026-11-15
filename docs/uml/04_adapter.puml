@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Adapter — simulated payment providers
+class ShoppingCart
+interface PaymentProcessor {
+  +pay(BigDecimal): String
+}
+class KaspiPaymentAdapter
+class StripePaymentAdapter
+class KaspiPayAPI {
+  +makePayment(BigDecimal): String
+}
+class StripeSDK {
+  +chargeCard(BigDecimal, String): String
+}
+ShoppingCart --> PaymentProcessor
+PaymentProcessor <|.. KaspiPaymentAdapter
+PaymentProcessor <|.. StripePaymentAdapter
+KaspiPaymentAdapter --> KaspiPayAPI : adapts
+StripePaymentAdapter --> StripeSDK : adapts
+
+@enduml

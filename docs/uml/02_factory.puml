@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Factory Method — standard products
+abstract class ProductFactory {
+  {abstract} +createProduct(): Product
+}
+class LaptopFactory
+class HeadphonesFactory
+interface Product
+abstract class AbstractProduct
+class StandardLaptop
+class WirelessHeadphones
+ProductFactory <|-- LaptopFactory
+ProductFactory <|-- HeadphonesFactory
+Product <|.. AbstractProduct
+AbstractProduct <|-- StandardLaptop
+AbstractProduct <|-- WirelessHeadphones
+LaptopFactory ..> StandardLaptop : creates
+HeadphonesFactory ..> WirelessHeadphones : creates
+
+@enduml

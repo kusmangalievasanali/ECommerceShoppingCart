@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Builder — real PC configuration
+interface ProductBuilder {
+  +setCpu(String): ProductBuilder
+  +setGpu(String): ProductBuilder
+  +setRamGb(int): ProductBuilder
+  +setStorageGb(int): ProductBuilder
+  +build(): Product
+}
+class CustomPCBuilder
+class PCDirector {
+  +buildGamingPC(ProductBuilder): Product
+  +buildWorkstation(ProductBuilder): Product
+}
+interface Product
+abstract class AbstractProduct
+class CustomPC {
+  -cpu: String
+  -gpu: String
+  -ramGb: int
+  -storageGb: int
+}
+ProductBuilder <|.. CustomPCBuilder
+Product <|.. AbstractProduct
+AbstractProduct <|-- CustomPC
+CustomPCBuilder ..> CustomPC : builds
+PCDirector ..> ProductBuilder : recipes
+
+@enduml

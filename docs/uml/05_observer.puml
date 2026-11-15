@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Observer — live base prices and committed inventory changes
+interface ProductSubject {
+  +addObserver(ProductObserver): void
+  +removeObserver(ProductObserver): void
+}
+class ProductCatalogNotifier {
+  +changePrice(String, BigDecimal): void
+  +restock(String, int): void
+  +reserve(Map): StockReservation
+}
+interface ProductObserver {
+  +onProductChanged(ProductEvent): void
+}
+class CustomerAlertObserver
+class CartSyncObserver
+class ProductEvent <<record>>
+class CatalogProduct
+class ShoppingCart
+ProductSubject <|.. ProductCatalogNotifier
+ProductCatalogNotifier o--> "0..*" ProductObserver
+ProductCatalogNotifier *--> CatalogProduct
+ProductCatalogNotifier ..> ProductEvent : publishes
+ProductObserver <|.. CustomerAlertObserver
+ProductObserver <|.. CartSyncObserver
+CartSyncObserver --> ShoppingCart : reads current totals
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Decorator — optional per-unit services
+interface Product {
+  +getSku(): String
+  +getDescription(): String
+  +getPrice(): BigDecimal
+}
+class CatalogProduct
+abstract class ProductDecorator {
+  #wrappedProduct: Product
+}
+class GiftWrapDecorator
+class ExtendedWarrantyDecorator
+class ExpressDeliveryDecorator
+Product <|.. CatalogProduct
+Product <|.. ProductDecorator
+ProductDecorator o--> Product : wraps
+ProductDecorator <|-- GiftWrapDecorator
+ProductDecorator <|-- ExtendedWarrantyDecorator
+ProductDecorator <|-- ExpressDeliveryDecorator
+
+@enduml

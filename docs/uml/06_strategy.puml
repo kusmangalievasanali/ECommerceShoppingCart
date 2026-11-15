@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Strategy — runtime discount selection and inventory contract
+class ShoppingCart {
+  -discountStrategy: DiscountStrategy
+  +setDiscountStrategy(DiscountStrategy): void
+  +getTotal(): BigDecimal
+  +checkout(PaymentProcessor): CheckoutReceipt
+}
+interface DiscountStrategy {
+  +applyDiscount(BigDecimal): BigDecimal
+}
+class NoDiscountStrategy
+class PercentageDiscountStrategy
+class PromoCodeDiscountStrategy
+interface InventoryGateway
+interface StockReservation
+class ProductCatalogNotifier
+ShoppingCart o--> DiscountStrategy
+DiscountStrategy <|.. NoDiscountStrategy
+DiscountStrategy <|.. PercentageDiscountStrategy
+DiscountStrategy <|.. PromoCodeDiscountStrategy
+PromoCodeDiscountStrategy --> PercentageDiscountStrategy : delegates
+ShoppingCart --> InventoryGateway
+InventoryGateway <|.. ProductCatalogNotifier
+InventoryGateway ..> StockReservation
+ShoppingCart ..> StockReservation : commit / close
+
+@enduml

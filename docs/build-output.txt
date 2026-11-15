@@ -1,0 +1,56 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< edu.team:ecommerce-shopping-cart >------------------
+[INFO] Building ecommerce-shopping-cart 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ ecommerce-shopping-cart ---
+[INFO] Deleting /workspace/work/fixed-ECommerceShoppingCart/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ ecommerce-shopping-cart ---
+[INFO] skip non existing resourceDirectory /workspace/work/fixed-ECommerceShoppingCart/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ ecommerce-shopping-cart ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 40 source files with javac [debug release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ ecommerce-shopping-cart ---
+[INFO] skip non existing resourceDirectory /workspace/work/fixed-ECommerceShoppingCart/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ ecommerce-shopping-cart ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug release 17] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ ecommerce-shopping-cart ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running strategy.CartIntegrationTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.171 s -- in strategy.CartIntegrationTest
+[INFO] Running factory.FactoryMethodTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in factory.FactoryMethodTest
+[INFO] Running observer.CatalogObserverTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in observer.CatalogObserverTest
+[INFO] Running decorator.DecoratorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in decorator.DecoratorTest
+[INFO] Running adapter.PaymentAdapterTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in adapter.PaymentAdapterTest
+[INFO] Running builder.BuilderTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in builder.BuilderTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ ecommerce-shopping-cart ---
+[INFO] Building jar: /workspace/work/fixed-ECommerceShoppingCart/target/ecommerce-shopping-cart-1.0.0.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.591 s
+[INFO] Finished at: 2026-11-13T21:16:10+05:00
+[INFO] ------------------------------------------------------------------------

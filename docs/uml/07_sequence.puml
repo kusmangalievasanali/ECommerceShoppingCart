@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Integrated checkout — six patterns
+actor Student
+participant Main
+participant PCDirector as Director
+participant CustomPCBuilder as Builder
+participant ProductFactory as Factory
+participant ProductCatalogNotifier as Catalog
+participant ProductDecorator as Decorator
+participant ShoppingCart as Cart
+participant ProductObserver as Observer
+participant DiscountStrategy as Strategy
+participant StockReservation as Reservation
+participant PaymentProcessor as Adapter
+participant KaspiPayAPI as Provider
+Student -> Main : run
+Main -> Director : buildGamingPC(builder)
+Director -> Builder : set CPU/GPU/RAM/SSD; build()
+Builder --> Main : immutable PC
+Main -> Factory : createProduct()
+Factory --> Main : laptop / headphones
+Main -> Catalog : register(products, stock)
+Main -> Decorator : wrap live catalog products
+Main -> Cart : addProduct(decorated)
+Main -> Catalog : addObserver(cartSync, customer)
+Main -> Catalog : changePrice(sku, basePrice)
+Catalog -> Observer : PRICE_CHANGED event
+Observer -> Cart : getSubtotal(), getTotal()
+Main -> Cart : setDiscountStrategy(promo)
+Main -> Cart : checkout(kaspiAdapter)
+Cart -> Strategy : applyDiscount(subtotal)
+Strategy --> Cart : total
+Cart -> Catalog : reserve(aggregated quantities)
+Catalog --> Cart : StockReservation
+alt positive total, successful payment
+  Cart -> Adapter : pay(total)
+  Adapter -> Provider : makePayment(total)
+  Provider --> Adapter : simulated confirmation
+  Adapter --> Cart : confirmation
+else zero total
+  Cart -> Cart : skip payment provider
+end
+Cart -> Reservation : commit()
+Reservation -> Observer : committed STOCK_CHANGED events
+Cart -> Cart : clear items
+Cart --> Main : immutable CheckoutReceipt
+note over Reservation, Cart
+If payment throws: close() rolls stock back;
+cart remains; no completed-sale event is emitted.
+end note
+
+@enduml

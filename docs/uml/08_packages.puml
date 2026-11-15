@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName DejaVu Sans
+skinparam defaultFontSize 13
+title Six root packages and one external Main
+class Main
+package builder {
+  interface Product
+}
+package factory {
+  abstract class ProductFactory
+}
+package decorator {
+  abstract class ProductDecorator
+}
+package adapter {
+  interface PaymentProcessor
+}
+package observer {
+  class ProductCatalogNotifier
+}
+package strategy {
+  class ShoppingCart
+  interface InventoryGateway
+}
+Main ..> ProductFactory
+Main ..> ProductCatalogNotifier
+Main ..> ShoppingCart
+ProductFactory ..> Product
+ProductDecorator ..|> Product
+ProductDecorator o--> Product
+ShoppingCart --> Product
+ShoppingCart --> PaymentProcessor
+ShoppingCart --> InventoryGateway
+ProductCatalogNotifier ..|> InventoryGateway
+
+@enduml
